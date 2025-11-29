@@ -4,6 +4,8 @@ This is an open-source component of LabWeb
 
 ## Get Started
 
+It requires some web knowledge to config everything properly. But with AI's help, you should be able to get it done quickly.
+
 ### 0. Prerequisites
 
 You need Node.js installed on your system. You can download it from [nodejs.org](https://nodejs.org/).
