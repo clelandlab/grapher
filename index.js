@@ -7,7 +7,7 @@ import { createReadStream } from 'fs'
 srpc({}, config.port)
 console.log('[LabWeb Grapher] server started at port', config.port)
 
-const P = config.pathMap || path => path
+const P = config.pathMap || (path => path)
 
 srpc.getList = async (token, path) => {
   if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
