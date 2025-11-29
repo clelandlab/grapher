@@ -1,0 +1,50 @@
+export function selectAll (el) {
+  el.focus()
+  let range, selection
+  if (document.body.createTextRange) {
+    range = document.body.createTextRange()
+    range.moveToElementText(el)
+    range.select()
+  } else if (window.getSelection) {
+    selection = window.getSelection()
+    range = document.createRange()
+    range.selectNodeContents(el)
+    selection.removeAllRanges()
+    selection.addRange(range)
+  }
+}
+
+export function debounce (func, timeout = 300) {
+  let timer
+  return (...args) => {
+    clearTimeout(timer)
+    timer = setTimeout(() => { func.apply(this, args) }, timeout)
+  }
+}
+
+export function throttle (func, timeout = 300) {
+  let prev = 0
+  return (...args) => {
+    const now = Date.now()
+    if (now - prev > timeout) {
+      prev = now
+      return func(...args)
+    }
+  }
+}
+
+export function download (data, filename, type = 'text/plain') {
+  const file = new Blob([data], { type })
+  if (window.navigator.msSaveOrOpenBlob) window.navigator.msSaveOrOpenBlob(file, filename)
+  else {
+    const a = document.createElement('a'), url = URL.createObjectURL(file)
+    a.href = url
+    a.download = filename
+    document.body.appendChild(a)
+    a.click()
+    setTimeout(() => {
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+    })
+  }
+}

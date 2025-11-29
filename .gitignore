@@ -138,5 +138,11 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
+
 config.js
 token.txt
+
+# web
+build/
+.npmrc
+pnpm-lock.yaml
