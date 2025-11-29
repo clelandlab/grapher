@@ -9,6 +9,11 @@ console.log('[LabWeb Grapher] server started at port', config.port)
 
 const P = config.pathMap || (path => path)
 
+srpc.auth = async token => {
+  if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
+  return { ok: true, dataPrefix: config.dataPrefix }
+}
+
 srpc.getList = async (token, path) => {
   if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
   if (!await authData(path)) return { ok: false, err: 'Permission denied' }
