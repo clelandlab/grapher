@@ -65,3 +65,15 @@ location /G/ {
 }
 ```
 
+## Protocol
+
+The Frontend and Backend communicate via [SRPC](https://github.com/yzITI/srpc). The interfaces are:
+
+```js
+srpc.grapher.auth(token)
+srpc.grapher.getList(token, path)
+srpc.grapher.writeYML(token, path, data)
+srpc.grapher.get(token, path, meta = true, lastSize = 0)
+srpc.grapher.createDir(token, path, dirName)
+```
+
