@@ -15,6 +15,7 @@
     goto('../grapher')
   }
   if (data?.token) init(data.token)
+  else if (LS.grapherToken) init(LS.grapherToken)
 </script>
 
 <div class="h-screen w-screen flex flex-col items-center justify-center select-none bg-gray-100">
