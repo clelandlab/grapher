@@ -9,12 +9,14 @@ console.log('[LabWeb Grapher] server started at port', config.port)
 
 const P = config.pathMap || (path => path)
 
-srpc.auth = async token => {
+srpc.grapher = {}
+
+srpc.grapher.auth = async token => {
   if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
   return { ok: true, dataPrefix: config.dataPrefix }
 }
 
-srpc.getList = async (token, path) => {
+srpc.grapher.getList = async (token, path) => {
   if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
   if (!await authData(path)) return { ok: false, err: 'Permission denied' }
   try {
@@ -31,7 +33,7 @@ srpc.getList = async (token, path) => {
 }
 
 // directory meta information stored as labweb.yml
-srpc.writeYML = async (token, path, data) => {
+srpc.grapher.writeYML = async (token, path, data) => {
   if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
   if (!await authData(path)) return { ok: false, err: 'Permission denied' }
   try {
@@ -53,7 +55,7 @@ function stream2Buffer (stream) {
 }
 
 // Path with no extension
-srpc.get = async (token, path, meta = true, lastSize = 0) => {
+srpc.grapher.get = async (token, path, meta = true, lastSize = 0) => {
   if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
   if (!await authData(path)) return { ok: false, err: 'Permission denied' }
   try {
@@ -74,7 +76,7 @@ srpc.get = async (token, path, meta = true, lastSize = 0) => {
   }
 }
 
-srpc.createDir = async (token, path, dirName) => {
+srpc.grapher.createDir = async (token, path, dirName) => {
   if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
   if (!await authData(path)) return { ok: false, err: 'Permission denied' }
   if (!dirName.match(/^[^\/\\\.]+$/)) return { ok: false, err: 'Invalid directory name' }

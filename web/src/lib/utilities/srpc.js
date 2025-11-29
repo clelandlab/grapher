@@ -2,7 +2,7 @@
 // https://github.com/yzITI/srpc
 
 export const SRPC = () => {
-  let url = './srpc'
+  let url = '../srpc'
 
   const getFunction = N => ((...A) => fetch(url, {
     method: 'POST', mode: 'cors', cache: 'no-cache',

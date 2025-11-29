@@ -88,7 +88,7 @@
     const res = await srpc.grapher.get(token(), path, false, lastSize)
     loading = false
     if (p !== path || !res.res.csv) return
-    if (error(res)) return
+    if (await error(res)) return
     lastSize = res.res.size
     const newRows = res.res.csv.replaceAll('\u0000', '').replaceAll('\r', '').split('\n').filter(x => x.match(/\S/)).map(x => x.split(',').map(y => Number(y)))
     csv = csv.concat(newRows) // efficient
@@ -250,7 +250,7 @@
   })
 
   function open () {
-    window.open('/graph/?path=' + encodeURIComponent(path), path, 'popup,width=600,height=500,left=10,top=10')
+    window.open('../graph/?path=' + encodeURIComponent(path), path, 'popup,width=600,height=500,left=10,top=10')
   }
 
   window.onresize = () => {
@@ -323,7 +323,7 @@
         <button onclick={() => { refresh = !refresh }} class="ml-1 mr-4 font-bold cursor-pointer">Auto Refresh</button>
         <button class="flex items-center mx-2 rounded bg-white text-sm px-2 py-1 transition-all shadow hover:shadow-md" onclick={open}>
           <AIcon path={mdiOpenInNew} size="1rem" class="mr-1"></AIcon>
-          <b>Open in New<b>
+          <b>Open in New</b>
         </button>
       </div>
       <div class="w-full p-2 font-mono text-sm grid grid-flow-col grid-rows-4">

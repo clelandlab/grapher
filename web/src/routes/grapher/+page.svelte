@@ -6,20 +6,20 @@
   import { parse } from 'ini'
   import YAML from 'yaml'
   import { AIcon } from 'ace.svelte'
-  import { mdiDatabase, mdiFolderOutline, mdiOpenInNew, mdiStar, mdiDelete, mdiArrowLeft, mdiArrowCollapseDown, mdiArrowCollapseUp, mdiRefreshAuto, mdiChartAreaspline, mdiFolderPlusOutline } from '@mdi/js'
+  import { mdiFolderOutline, mdiOpenInNew, mdiStar, mdiDelete, mdiArrowLeft, mdiArrowCollapseDown, mdiArrowCollapseUp, mdiRefreshAuto, mdiChartAreaspline, mdiFolderPlusOutline } from '@mdi/js'
   import Graph from '$lib/components/Graph.svelte'
   import { debounce } from '$lib/utilities/utils.js'
   import { goto } from '$app/navigation'
 
   let { data } = $props()
-  let path = $state(data.path || LS.dataPrefix), list = $state([]), tag = $state({}), focus = $state(''), filter = $state('')
+  let path = $state(data.path || LS.grapherPath), list = $state([]), tag = $state({}), focus = $state(''), filter = $state('')
   let listEl = $state(null), filterList = $state([])
   let refresh = $state(true), keyword = $state('')
 
   async function loadPath () {
     path = path.replaceAll('\\', '/')
     if (path[path.length - 1] !== '/') path += '/'
-    LS.dataPrefix = path
+    LS.grapherPath = path
     const res = await srpc.grapher.getList(token(), path)
     if (await error(res)) return refresh = false
     list = res.res.sort((a, b) => {
@@ -36,7 +36,7 @@
   }
   if (!token()) goto('/')
   else {
-    if (data.path || LS.dataPrefix) loadPath()
+    if (data.path || LS.grapherPath) loadPath()
     setInterval(() => {
       if (refresh && path) loadPath()
     }, 2e3)
@@ -93,7 +93,7 @@
     e.stopPropagation()
     if (e.detail > 1 || l.match(/\.dir$/)) return
     const newPath = path + l.substring(0, l.length - 4)
-    window.open('/graph/?path=' + encodeURIComponent(newPath), l, 'popup,width=600,height=500,left=10,top=10')
+    window.open('../graph/?path=' + encodeURIComponent(newPath), l, 'popup,width=600,height=500,left=10,top=10')
   }
 
   async function addTag (l, t, e) {

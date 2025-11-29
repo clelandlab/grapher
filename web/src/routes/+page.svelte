@@ -1,3 +1,6 @@
-<script></script>
+<script>
+  import { goto } from '$app/navigation'
+  goto('./login')
+</script>
 
-<div></div>
+<div>Loading...</div>
