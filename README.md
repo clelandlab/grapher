@@ -2,6 +2,8 @@
 
 This is an open-source component of LabWeb
 
+![image](https://github.com/user-attachments/assets/6fd71ff1-8016-4300-bff7-c3e3b8fb31dd)
+
 ## Get Started
 
 It requires some web knowledge to config everything properly. But with AI's help, you should be able to get it done quickly.
