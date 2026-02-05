@@ -8,8 +8,8 @@
 		"preview": "vite preview"
 	},
 	"devDependencies": {
-		"@sveltejs/kit": "^2.49.0",
-		"tailwindcss": "^4.1.17",
+		"@sveltejs/kit": "^2.50.2",
+		"tailwindcss": "^4.1.18",
 		"vite": "^6.4.1"
 	},
 	"type": "module",
@@ -17,13 +17,13 @@
 		"@mdi/js": "^7.4.47",
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/vite-plugin-svelte": "^5.1.1",
-		"@tailwindcss/vite": "^4.1.17",
+		"@tailwindcss/vite": "^4.1.18",
 		"ace.svelte": "^0.2.0",
 		"ini": "^5.0.0",
 		"moment": "^2.30.1",
-		"plotly.js-dist-min": "^3.3.0",
-		"svelte": "^5.45.2",
-		"sweetalert2": "^11.26.3",
-		"yaml": "^2.8.1"
+		"plotly.js-dist-min": "^3.3.1",
+		"svelte": "^5.49.2",
+		"sweetalert2": "^11.26.18",
+		"yaml": "^2.8.2"
 	}
 }

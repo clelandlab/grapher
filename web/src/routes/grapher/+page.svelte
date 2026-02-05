@@ -14,7 +14,7 @@
   let { data } = $props()
   let path = $state(data.path || LS.grapherPath), list = $state([]), tag = $state({}), focus = $state(''), filter = $state('')
   let listEl = $state(null), filterList = $state([])
-  let refresh = $state(true), keyword = $state('')
+  let refresh = $state(true), keepBottom = $state(false), keyword = $state('')
 
   async function loadPath () {
     path = path.replaceAll('\\', '/')
@@ -39,6 +39,7 @@
     if (data.path || LS.grapherPath) loadPath()
     setInterval(() => {
       if (refresh && path) loadPath()
+      if (keepBottom) setTimeout(() => scroll(), 100)
     }, 2e3)
   }
 
@@ -113,10 +114,19 @@
     if (e.key === 't') return addTag(l, 'trash', e)
   })
 
-  function scroll (bottom) {
+  function scroll (top) {
     if (!listEl) return
-    if (bottom) listEl.scrollTop = listEl.scrollHeight
-    else listEl.scrollTop = 0
+    if (top) {
+      listEl.scrollTop = 0
+      keepBottom = false
+      return
+    }
+    listEl.scrollTop = listEl.scrollHeight
+    keepBottom = true
+  }
+
+  function onscroll () {
+    keepBottom = (listEl.scrollTop + listEl.clientHeight >= listEl.scrollHeight - 10)
   }
 </script>
 
@@ -140,11 +150,11 @@
           <button class="px-1 cursor-pointer" onclick={() => refresh = !refresh} title="list auto refresh">
             <AIcon size="1.2rem" class={refresh ? "text-blue-500" : "text-gray-700"} path={mdiRefreshAuto} />
           </button>
-          <button class="px-1 cursor-pointer" onclick={() => scroll(false)} title="scroll to top">
+          <button class="px-1 cursor-pointer" onclick={() => scroll(true)} title="scroll to top">
             <AIcon size="1.2rem" path={mdiArrowCollapseUp} />
           </button>
-          <button class="px-1 cursor-pointer" onclick={() => scroll(true)} title="scroll to bottom">
-            <AIcon size="1.2rem" path={mdiArrowCollapseDown} />
+          <button class="px-1 cursor-pointer" onclick={() => scroll(false)} title="scroll to bottom">
+            <AIcon size="1.2rem" class={keepBottom ? "text-blue-500" : "text-gray-700"} path={mdiArrowCollapseDown} />
           </button>
           <b class="ml-2">Filter: </b>
           <AIcon path={mdiStar} size="1.1rem" class="cursor-pointer ml-1 text-yellow-500 {filter === 'star' ? 'opacity-100' : 'opacity-30 hover:opacity-50'}" onclick={e => filter = filter === 'star' ? '' : 'star'}></AIcon>
@@ -152,7 +162,7 @@
           <input class="block ml-1 w-32 font-bold {keyword ? 'bg-white' : 'bg-gray-200 focus:bg-gray-100'} rounded outline-none px-1" placeholder="keyword" bind:value={keyword} />
         </div>
       </div>
-      <div class="flex grow h-0 flex-col items-start overflow-auto w-full" bind:this={listEl}>
+      <div class="flex grow h-0 flex-col items-start overflow-auto w-full" bind:this={listEl} onscroll={onscroll}>
         {#each filterList as l}
           {@const dp = displayName(l)}
           <button class={'px-1 cursor-pointer flex items-center text-black text-left text-sm w-full ' + (focus === path + l.substring(0, l.length - 4) ? 'bg-blue-200' : 'bg-gray-100')} onclick={e => click(l, e)} ondblclick={() => dblclick(l)}>
