@@ -19,7 +19,7 @@
 </script>
 
 <div class="h-screen w-screen flex flex-col items-center justify-center select-none bg-gray-100">
-  <img src="./favicon.svg" alt="logo" class="w-56">
+  <img src="../favicon.svg" alt="logo" class="w-56">
   <h1 class="text-4xl font-bold my-4">LabWeb Grapher</h1>
   {#if loading}
     <div class="font-mono animate-pulse">Loading...</div>
