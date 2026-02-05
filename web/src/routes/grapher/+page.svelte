@@ -39,7 +39,7 @@
     if (data.path || LS.grapherPath) loadPath()
     setInterval(() => {
       if (refresh && path) loadPath()
-      if (keepBottom) setTimeout(() => scroll(), 100)
+      if (keepBottom) setTimeout(() => scroll(), 50)
     }, 2e3)
   }
 
@@ -67,11 +67,13 @@
   function dblclick (l, e) {
     if (!l.match(/\.dir$/)) return
     path = path + l + '/'
+    keepBottom = false
     loadPath()
   }
 
   function back () {
     path = path.replace(/(?:(?!\/).)*?\.dir\/$/, '')
+    keepBottom = false
     loadPath()
   }
 
