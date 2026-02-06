@@ -52,17 +52,19 @@ npm install
 npm run build
 ```
 
-Now the frontend files will be generated in `web/build` folder. You can use whatever static file server to serve these files, like Nginx. Make sure to config the route such that `/srpc` goes to the backend server.
+Now the frontend files will be generated in `web/build` folder.
 
-For example, to put both frontend and backend in the route `/G/` in Nginx config:
+### 4. Web Server
+
+You can use whatever web server to serve the static website and reverse proxy the backend, like Nginx or Caddy. Make sure to config the route such that `/srpc` goes to the backend server.
+
+For example, in [Nginx](https://nginx.org/) config, put both frontend and backend in the route `/G/`:
 
 ```
 # part of nginx.conf
-
 location /G/srpc {
     proxy_pass http://localhost:11112/;
 }
-
 location /G/ {
     alias  /path/to/grapher/web/build/;
     index  index.html;
@@ -79,6 +81,8 @@ Or if you want to use [Caddy](https://caddyserver.com/) and directly serve on po
     reverse_proxy /srpc* localhost:11112
 }
 ```
+
+I am sure you can use AI to get the web server config done or customize the config quickly.
 
 ## Protocol
 
