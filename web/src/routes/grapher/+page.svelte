@@ -108,14 +108,6 @@
     if (await error(res)) return refresh = false
   }
 
-  window.addEventListener('keyup', e => {
-    if (!focus || typeof e.srcElement.value !== 'undefined' || e.srcElement.contentEditable === 'true') return
-    e.preventDefault()
-    const l = focus.replace(path, '') + '.ini'
-    if (e.key === 's') return addTag(l, 'star', e)
-    if (e.key === 't') return addTag(l, 'trash', e)
-  })
-
   function scroll (top) {
     if (!listEl) return
     if (top) {
@@ -131,9 +123,14 @@
     keepBottom = (listEl.scrollTop + listEl.clientHeight >= listEl.scrollHeight - 10)
   }
 
-  function keydown (e) {
-    if (!e.ctrlKey || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return
+  function keyup (e) {
     e.preventDefault()
+    if (focus) {
+      const l = focus.replace(path, '') + '.csv'
+      if (e.key === 's') return addTag(l, 'star', e)
+      if (e.key === 't') return addTag(l, 'trash', e)
+    }
+    if (!e.ctrlKey || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return
     const idx = filterList.findIndex(l => path + l.substring(0, l.length - 4) === focus)
     const delta = e.key === 'ArrowUp' ? -1 : 1
     let new_idx = idx + delta
@@ -145,7 +142,7 @@
   }
 </script>
 
-<svelte:window onkeydown={keydown} />
+<svelte:window onkeyup={keyup} />
 
 <div class="h-screen w-full bg-gray-100 flex flex-col" style="min-width: 1024px;">
   <div class="flex items-center px-4 py-2">
