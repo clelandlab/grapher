@@ -130,7 +130,22 @@
   function onscroll () {
     keepBottom = (listEl.scrollTop + listEl.clientHeight >= listEl.scrollHeight - 10)
   }
+
+  function keydown (e) {
+    if (!e.ctrlKey || (e.key !== 'ArrowUp' && e.key !== 'ArrowDown')) return
+    e.preventDefault()
+    const idx = filterList.findIndex(l => path + l.substring(0, l.length - 4) === focus)
+    const delta = e.key === 'ArrowUp' ? -1 : 1
+    let new_idx = idx + delta
+    while (new_idx >= 0 && new_idx < filterList.length) {
+      if (filterList[new_idx].match(/\.csv$/)) return click(filterList[new_idx], { detail: 1 })
+      new_idx += delta
+    }
+    return
+  }
 </script>
+
+<svelte:window onkeydown={keydown} />
 
 <div class="h-screen w-full bg-gray-100 flex flex-col" style="min-width: 1024px;">
   <div class="flex items-center px-4 py-2">
@@ -167,14 +182,14 @@
       <div class="flex grow h-0 flex-col items-start overflow-auto w-full" bind:this={listEl} onscroll={onscroll}>
         {#each filterList as l}
           {@const dp = displayName(l)}
-          <button class={'px-1 cursor-pointer flex items-center text-black text-left text-sm w-full ' + (focus === path + l.substring(0, l.length - 4) ? 'bg-blue-200' : 'bg-gray-100')} onclick={e => click(l, e)} ondblclick={() => dblclick(l)}>
+          <div class={'px-1 cursor-pointer flex items-center text-black text-left text-sm w-full ' + (focus === path + l.substring(0, l.length - 4) ? 'bg-blue-200' : 'bg-gray-100')} onclick={e => click(l, e)} ondblclick={() => dblclick(l)}>
             <AIcon path={l.match(/\.dir$/) ? mdiFolderOutline : mdiOpenInNew} size="1.1rem" style="min-width: 1.1rem;" onclick={e => open(l, e)}></AIcon>
             <b class="whitespace-nowrap mx-1" style="min-width: 80px;">{dp}</b>
             {#if l.match(/\.csv$/)}
               <AIcon path={mdiStar} size="1.1rem" class="text-yellow-500 {tag[dp] === 'star' ? 'opacity-100' : 'opacity-10 hover:opacity-30'}" onclick={e => addTag(l, 'star', e)}></AIcon>
               <AIcon path={mdiDelete} size="1.1rem" class="text-red-500 {tag[dp] === 'trash' ? 'opacity-100' : 'opacity-10 hover:opacity-30'}" onclick={e => addTag(l, 'trash', e)}></AIcon>
             {/if}
-          </button>
+          </div>
         {/each}
       </div>
     </div>
