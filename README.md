@@ -4,7 +4,15 @@ This is an open-source component of LabWeb
 
 <img width="1896" height="905" alt="image" src="https://github.com/user-attachments/assets/45b8e676-2dee-4b71-ad7e-938eaed53037" />
 
-## Get Started
+## Keyboard Shortcuts
+
+On the data list:
+- `s`: star the current data
+- `t`: trash the current data
+- `ctrl + up`: previous data
+- `ctrl + down`: next data
+
+## Deployment
 
 It requires some web knowledge to config everything properly. But with AI's help, you should be able to get it done quickly.
 
