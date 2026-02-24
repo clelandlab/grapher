@@ -12,7 +12,7 @@
   import { goto } from '$app/navigation'
 
   let { data } = $props()
-  let path = $state(data.path || LS.grapherPath), list = $state([]), tag = $state({}), focus = $state(''), filter = $state('')
+  let path = $state(LS.grapherPath), list = $state([]), tag = $state({}), focus = $state(''), filter = $state('')
   let listEl = $state(null), filterList = $state([])
   let refresh = $state(true), keepBottom = $state(false), keyword = $state('')
 
@@ -34,14 +34,18 @@
     const yml = YAML.parse(res.yml || '')
     if (yml?.tag) tag = yml.tag
   }
-  if (!token()) goto('/')
-  else {
-    if (data.path || LS.grapherPath) loadPath()
-    setInterval(() => {
-      if (refresh && path) loadPath()
-      if (keepBottom) setTimeout(() => scroll(), 50)
-    }, 2e3)
-  }
+
+  (() => {
+    if (!token()) goto('/')
+    else {
+      if (data.path) path = data.path
+      if (data.path || LS.grapherPath) loadPath()
+      setInterval(() => {
+        if (refresh && path) loadPath()
+        if (keepBottom) setTimeout(() => scroll(), 50)
+      }, 2e3)
+    }
+  })()
 
   function updateFilterList () {
     const kw = keyword.toLowerCase()
@@ -179,14 +183,14 @@
       <div class="flex grow h-0 flex-col items-start overflow-auto w-full" bind:this={listEl} onscroll={onscroll}>
         {#each filterList as l}
           {@const dp = displayName(l)}
-          <div class={'px-1 cursor-pointer flex items-center text-black text-left text-sm w-full ' + (focus === path + l.substring(0, l.length - 4) ? 'bg-blue-200' : 'bg-gray-100')} onclick={e => click(l, e)} ondblclick={() => dblclick(l)}>
+          <button class={'px-1 cursor-pointer flex items-center text-black text-left text-sm w-full ' + (focus === path + l.substring(0, l.length - 4) ? 'bg-blue-200' : 'bg-gray-100')} onclick={e => click(l, e)} ondblclick={() => dblclick(l)}>
             <AIcon path={l.match(/\.dir$/) ? mdiFolderOutline : mdiOpenInNew} size="1.1rem" style="min-width: 1.1rem;" onclick={e => open(l, e)}></AIcon>
             <b class="whitespace-nowrap mx-1" style="min-width: 80px;">{dp}</b>
             {#if l.match(/\.csv$/)}
               <AIcon path={mdiStar} size="1.1rem" class="text-yellow-500 {tag[dp] === 'star' ? 'opacity-100' : 'opacity-10 hover:opacity-30'}" onclick={e => addTag(l, 'star', e)}></AIcon>
               <AIcon path={mdiDelete} size="1.1rem" class="text-red-500 {tag[dp] === 'trash' ? 'opacity-100' : 'opacity-10 hover:opacity-30'}" onclick={e => addTag(l, 'trash', e)}></AIcon>
             {/if}
-          </div>
+          </button>
         {/each}
       </div>
     </div>
