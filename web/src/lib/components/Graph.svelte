@@ -276,9 +276,9 @@
       <div class="flex transition-all">
         {#key metaKey}
           <div class="py-1 px-2 w-1/2 flex flex-col">
-            <h3 class="font-bold my-2">Independent:</h3>
+            <h3 class="font-bold my-2 select-none">Independent:</h3>
             {#each meta.independent as v}
-              <button class={'flex items-center m-1 ' + (indep.includes(v) ? 'text-blue-700' : 'text-gray-700')} onclick={() => toggleIndep(v)}>
+              <button class={'cursor-pointer flex items-center m-1 ' + (indep.includes(v) ? 'text-blue-700' : 'text-gray-700')} onclick={() => toggleIndep(v)}>
                 <AIcon class="mr-2" path={indep[0] === v ? mdiAlphaXBox : (indep[1] === v ? mdiAlphaYBox : mdiCheckboxBlankOutline)} size="1.5rem" style="min-width: 1.5rem;"></AIcon>
                 <b class="break-word text-left">{getLabel(v)}</b>
               </button>
@@ -293,9 +293,9 @@
             <code class="block mx-2 my-1 text-gray-500 text-sm"># of points: {nop}</code>
           </div>
           <div class="py-1 px-2 w-1/2 overflow-x-hidden">
-            <h3 class="font-bold my-2">Dependent:</h3>
+            <h3 class="font-bold my-2 select-none">Dependent:</h3>
             {#each meta.dependent as v}
-              <button class="flex items-center m-1 text-gray-700" style:color={dep.includes(v) ? colors[v.index] : ''} onclick={() => toggleDep(v)}>
+              <button class="cursor-pointer flex items-center m-1 text-gray-700" style:color={dep.includes(v) ? colors[v.index] : ''} onclick={() => toggleDep(v)}>
                 <AIcon class="mr-2" path={dep.includes(v) ? mdiCheckboxMarked : mdiCheckboxBlankOutline} size="1.5rem" style="min-width: 1.5rem;"></AIcon>
                 <b class="break-word text-left">{getLabel(v)}</b>
               </button>
@@ -304,8 +304,8 @@
         {/key}
       </div>
       <div class="flex flex-wrap transition-all">
-        <b class="p-2 flex items-center mx-2">logX<ACheckbox bind:value={logx} size="1.25rem"></ACheckbox></b>
-        <b class="p-2 flex items-center mx-2">logY<ACheckbox bind:value={logy} size="1.25rem"></ACheckbox></b>
+        <b class="p-2 flex items-center mx-2 select-none">logX<ACheckbox bind:value={logx} size="1.25rem"></ACheckbox></b>
+        <b class="p-2 flex items-center mx-2 select-none">logY<ACheckbox bind:value={logy} size="1.25rem"></ACheckbox></b>
         {#if indep.length == 2}
           <div class="mx-2 p-2 flex items-center">
             <b>Z lim:</b>
@@ -321,7 +321,7 @@
       <div class="flex items-center p-2 wrap whitespace-nowrap">
         <ASwitch bind:value={refresh} size="1.25rem"></ASwitch>
         <button onclick={() => { refresh = !refresh }} class="ml-1 mr-4 font-bold cursor-pointer">Auto Refresh</button>
-        <button class="flex items-center mx-2 rounded bg-white text-sm px-2 py-1 transition-all shadow hover:shadow-md" onclick={open}>
+        <button class="cursor-pointer flex items-center mx-2 rounded bg-white text-sm px-2 py-1 transition-all shadow hover:shadow-md" onclick={open}>
           <AIcon path={mdiOpenInNew} size="1rem" class="mr-1"></AIcon>
           <b>Open in New</b>
         </button>
