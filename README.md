@@ -4,6 +4,8 @@ This is an open-source component of LabWeb
 
 <img width="1896" height="905" alt="image" src="https://github.com/user-attachments/assets/45b8e676-2dee-4b71-ad7e-938eaed53037" />
 
+> The grapher does not have the capability to actually delete any file. The trash is only a tag to hide it from the list.
+
 ## Keyboard Shortcuts
 
 On the data list:
