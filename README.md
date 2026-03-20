@@ -106,3 +106,13 @@ srpc.grapher.get(token, path, meta = true, lastSize = 0)
 srpc.grapher.createDir(token, path, dirName)
 ```
 
+## Cite this work
+
+```bibtex
+@article{li2026large,
+  title={Large Language Model-Assisted Superconducting Qubit Experiments},
+  author={Li, Shiheng and Miller, Jacob M and Lee, Phoebe J and Andersson, Gustav and Conner, Christopher R and Joshi, Yash J and Karimi, Bayan and King, Amber M and Malc, Howard L and Mishra, Harsh and others},
+  journal={arXiv preprint arXiv:2603.08801},
+  year={2026}
+}
+```
