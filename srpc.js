@@ -13,8 +13,9 @@ async function handle (raw, IP) {
   if (!(body.N instanceof Array) || !(body.A instanceof Array)) return ['Arguments Error', 400]
   try { // find function
     for (const n of body.N) {
-      if (!F.hasOwnProperty(n)) throw 1
+      if (!F.hasOwnProperty(n) || (typeof F === 'function' && n === 'prototype')) throw 1
       F = F[n]
+      if (typeof F !== 'object' && typeof F !== 'function') throw 1
     }
     if (typeof F !== 'function') throw 1
   } catch { return ['Function Not Found', 404] }
@@ -35,12 +36,13 @@ const cors = {
 }
 
 function listener (req, resp) {
+  const ip = req.headers['x-forwarded-for']?.split(',')[0] || req.headers['x-real-ip'] || req.socket.remoteAddress || req.connection?.remoteAddress
   if (req.method === 'OPTIONS') return resp.writeHead(204, cors).end()
   if (req.method !== 'POST') return resp.writeHead(400).end('Method Error')
   let raw = ''
   req.on('data', chunk => { raw += chunk })
   req.on('end', async () => {
-    const [body, status] = await handle(raw, req.headers['x-forwarded-for']?.split(',')[0] || req.headers['x-real-ip'] || req.socket.address().address)
+    const [body, status] = await handle(raw, ip)
     resp.writeHead(status, {
       ...cors,
       'Content-Length': Buffer.byteLength(body),
