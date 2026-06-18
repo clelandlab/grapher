@@ -22,7 +22,11 @@
   let refresh = $state(false), loading = false
   let plotHeight = 0, plotWidth = 0, plotContainer = $state(null)
 
-  const colors = ['#1f77b4', '#ff7f0e', '#d62728', '#2ca02c', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf']
+  const colors = [ '#1f77b4', '#ff7f0e', '#d62728', '#2ca02c', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
+    // additional 20 colors
+    '#3fe077', '#e03f7d', '#4f3fe0', '#7ae03f', '#c33fe0', '#e0623f', '#3f92e0', '#3fe0b3', '#e0e03f', '#e09d3f', 
+    '#42e03f', '#883fe0', '#e03fb3', '#abe03f', '#3fd0e0', '#3f67e0', '#e03f54', '#e0bd3f', '#e03fd3', '#3fb0e0'
+  ]
   const getLabel = v => `${v.label}${v.category ? ` [${v.category}]` : ''} (${v.units})`
 
   async function init () {
