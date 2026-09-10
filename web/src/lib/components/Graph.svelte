@@ -18,12 +18,11 @@
   let meta = $state({}), metaKey = $state(0)
   let nop = $state(0) // number of rows
   let csv = [], hasData = $state(false), hasPlot = false, lastSize = 0
-  let indep = $state([]), dep = $state([]), logx = $state(false), logy = $state(false), zaxis = $state({})
+  let indep = $state([]), dep = $state([]), logx = $state(false), logy = $state(false), zaxis = $state({}), colorscheme = $state('Portland')
   let refresh = $state(false), loading = false
   let plotHeight = 0, plotWidth = 0, plotContainer = $state(null)
 
   const colors = [ '#1f77b4', '#ff7f0e', '#d62728', '#2ca02c', '#9467bd', '#8c564b', '#e377c2', '#7f7f7f', '#bcbd22', '#17becf',
-    // additional 20 colors
     '#3fe077', '#e03f7d', '#4f3fe0', '#7ae03f', '#c33fe0', '#e0623f', '#3f92e0', '#3fe0b3', '#e0e03f', '#e09d3f', 
     '#42e03f', '#883fe0', '#e03fb3', '#abe03f', '#3fd0e0', '#3f67e0', '#e03f54', '#e0bd3f', '#e03fd3', '#3fb0e0'
   ]
@@ -173,7 +172,7 @@
       margin: { t: 60 },
       xaxis: { title: { text: xlabel }, linecolor: 'black', linewidth: 2, mirror: true, type: logx ? 'log' : 'linear' },
       yaxis: { title: { text: ylabel }, linecolor: 'black', linewidth: 2, mirror: true, type: logy ? 'log' : 'linear' },
-      coloraxis: { colorscale: 'Portland', colorbar: { title: { text: zlabel, side: 'right' } }, cauto: (typeof zaxis.cmin != 'number') && (typeof zaxis.cmax != 'number'), cmin: zaxis.cmin, cmax: zaxis.cmax }
+      coloraxis: { colorscale: colorscheme, colorbar: { title: { text: zlabel, side: 'right' } }, cauto: (typeof zaxis.cmin != 'number') && (typeof zaxis.cmax != 'number'), cmin: zaxis.cmin, cmax: zaxis.cmax }
     }, { displaylogo: false, showTips: false, toImageButtonOptions: { format: 'png', filename: meta.general.title, scale: 3 } })
     setTimeout(() => {
       hasPlot = true
@@ -250,7 +249,7 @@
   })
 
   $effect(() => {
-    logx; logy; zaxis.cmin; zaxis.cmax; untrack(debouncedPlot)
+    logx; logy; zaxis.cmin; zaxis.cmax; colorscheme; untrack(debouncedPlot)
   })
 
   function open () {
@@ -307,7 +306,7 @@
           </div>
         {/key}
       </div>
-      <div class="flex flex-wrap transition-all">
+      <div class="flex items-center flex-wrap transition-all">
         <b class="p-2 flex items-center mx-2 select-none">logX<ACheckbox bind:value={logx} size="1.25rem"></ACheckbox></b>
         <b class="p-2 flex items-center mx-2 select-none">logY<ACheckbox bind:value={logy} size="1.25rem"></ACheckbox></b>
         {#if indep.length == 2}
@@ -320,6 +319,12 @@
             <input class="bg-white mx-1 rounded pl-1 font-mono" style="width: 2.5rem;" bind:value={zaxis.decimal} type="number" placeholder="decimal">
             <span>)</span>
           </div>
+          {@const schemes = ['Portland', 'YlOrRd', 'YlGnBu', 'RdBu', 'Picnic', 'Jet', 'Hot', 'Greys', 'Greens', 'Electric', 'Earth', 'Bluered', 'Blackbody']}
+          <select class="mx-2 px-2 py-1 rounded bg-white" bind:value={colorscheme}>
+            {#each schemes as scheme}
+              <option value={scheme}>{scheme}</option>
+            {/each}
+          </select>
         {/if}
       </div>
       <div class="flex items-center p-2 wrap whitespace-nowrap">
