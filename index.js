@@ -12,13 +12,13 @@ const P = config.pathMap || (path => path)
 srpc.grapher = {}
 
 srpc.grapher.auth = async token => {
-  if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
+  if (!authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
   return { ok: true, dataPrefix: config.dataPrefix }
 }
 
 srpc.grapher.getList = async (token, path) => {
-  if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
-  if (!await authData(path)) return { ok: false, err: 'Permission denied' }
+  if (!authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
+  if (!authData(path)) return { ok: false, err: 'Permission denied' }
   try {
     const list = (await fs.readdir(P(path))).filter(x => x.match(/\.csv$/) || x.match(/\.dir$/))
     let ini = undefined, yml = undefined
@@ -34,8 +34,8 @@ srpc.grapher.getList = async (token, path) => {
 
 // directory meta information stored as labweb.yml
 srpc.grapher.writeYML = async (token, path, data) => {
-  if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
-  if (!await authData(path)) return { ok: false, err: 'Permission denied' }
+  if (!authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
+  if (!authData(path)) return { ok: false, err: 'Permission denied' }
   try {
     await fs.writeFile(P(path + '/labweb.yml'), data)
     return { ok: true }
@@ -56,8 +56,8 @@ function stream2Buffer (stream) {
 
 // Path with no extension
 srpc.grapher.get = async (token, path, meta = true, lastSize = 0) => {
-  if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
-  if (!await authData(path)) return { ok: false, err: 'Permission denied' }
+  if (!authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
+  if (!authData(path)) return { ok: false, err: 'Permission denied' }
   try {
     const res = {}
     if (meta) {
@@ -77,8 +77,8 @@ srpc.grapher.get = async (token, path, meta = true, lastSize = 0) => {
 }
 
 srpc.grapher.createDir = async (token, path, dirName) => {
-  if (!await authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
-  if (!await authData(path)) return { ok: false, err: 'Permission denied' }
+  if (!authToken(token)) return { ok: false, logout: true, err: 'Permission denied' }
+  if (!authData(path)) return { ok: false, err: 'Permission denied' }
   if (!dirName.match(/^[^\/\\\.]+$/)) return { ok: false, err: 'Invalid directory name' }
   try {
     await fs.mkdir(P(path + '/' + dirName + '.dir'))
