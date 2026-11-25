@@ -146,3 +146,5 @@ token.txt
 build/
 .npmrc
 pnpm-lock.yaml
+
+*:
