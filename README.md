@@ -36,6 +36,8 @@ export default {
 }
 ```
 
+> On Linux server, you can either use the pathMap to rewrite path, or you can create a symbolic link of `V:` folder to your actual storage location.
+
 ### 2. Start Backend
 
 To just run the backend server, use the following command:
